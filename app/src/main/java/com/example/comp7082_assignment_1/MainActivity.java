@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -20,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 public class MainActivity extends AppCompatActivity {
-    private static final int SEARCH_ACTIVITY_REQUEST_CODE = 0;
+    private static final int SEARCH_ACTIVITY_REQUEST_CODE = 2;
     private ArrayList<String> photos = null;
     private int index = 0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -64,18 +65,20 @@ public class MainActivity extends AppCompatActivity {
         return photos;
     }
     public void scrollPhotos(View v) {
-        updatePhoto(photos.get(index), ((EditText) findViewById(R.id.etCaption)).getText().toString());
+        //updatePhoto(photos.get(index), ((EditText) findViewById(R.id.etCaption)).getText().toString());
         switch (v.getId()) {
             case R.id.btnPrev:
                 if (index > 0) {
-                    index--;
+                    index = index - 1;
+                    System.out.println("The Index for Prev is " + index);
                 }
                 break;
             case R.id.btnNext:
                 if (index < (photos.size() - 1)) {
-                index++;
-            }
-            break;
+                    index = index + 1;
+                    System.out.println("The Index for Next is " + index);
+                }
+                break;
             default:
                 break;
         }
