@@ -31,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
         setContentView(R.layout.activity_main);
+        if (photos.size() == 0) {
+            displayPhoto(null);
+        } else {
+            displayPhoto(photos.get(index));
+        }
     }
     public void takePhoto(View v) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -65,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         return photos;
     }
     public void scrollPhotos(View v) {
-        //updatePhoto(photos.get(index), ((EditText) findViewById(R.id.etCaption)).getText().toString());
+        updatePhoto(photos.get(index), ((EditText) findViewById(R.id.etCaption)).getText().toString());
         switch (v.getId()) {
             case R.id.btnPrev:
                 if (index > 0) {
@@ -95,20 +100,23 @@ public class MainActivity extends AppCompatActivity {
         } else {
             iv.setImageBitmap(BitmapFactory.decodeFile(path));
             String[] attr = path.split("_");
-            et.setText(attr[1]);
-            tv.setText(attr[2]);
+            et.setText(attr[3]);
+            tv.setText(attr[4]);
+
         }
     }
     private void updatePhoto(String path, String caption) {
         String[] attr = path.split("_");
-        if (attr.length >= 3) {
-            File to = new File(attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3]);
+        if (attr.length >= 5) {
+            String tmpPath = attr[0] + "_" + attr[1] + "_" + attr[2] + "_" + caption + "_" + attr[4] + "_" + attr[5] + "_" + attr[6];
+            File to = new File(tmpPath);
             File from = new File(path);
             from.renameTo(to);
+            System.out.println(from);
         }
     }
     private File createImageFile() throws IOException {
-// Create an image file name
+        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "_caption_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
