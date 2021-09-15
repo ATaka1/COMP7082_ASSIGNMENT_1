@@ -20,12 +20,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ISearch {
     private static final int SEARCH_ACTIVITY_REQUEST_CODE = 2;
     private ArrayList<String> photos = null;
     private int index = 0;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    String mCurrentPhotoPath;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private String mCurrentPhotoPath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
             displayPhoto(photos.get(index));
         }
     }
+
+    public void startSearch(View v) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
     public void takePhoto(View v) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -102,9 +109,12 @@ public class MainActivity extends AppCompatActivity {
             iv.setImageBitmap(BitmapFactory.decodeFile(path));
             String[] attr = path.split("_");
             et.setText(attr[3]);
-            tv.setText(attr[4] + "/ " +  attr[5]);
+            tv.setText(attr[4] + " / " +  attr[5]);
         }
     }
+
+
+
     private void updatePhoto(String path, String caption) {
         String[] attr = path.split("_");
         if (attr.length >= 5) {
@@ -124,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -156,4 +169,7 @@ public class MainActivity extends AppCompatActivity {
             photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
         }
     }
+
+
+
 }
