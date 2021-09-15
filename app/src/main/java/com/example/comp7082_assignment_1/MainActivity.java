@@ -119,8 +119,9 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         String[] attr = path.split("/");
         String a = attr[9];
         String[] attr2 = a.split("_");
+        String filePath = attr[0]+"/"+attr[1]+"/"+attr[2]+"/"+attr[3]+"/"+attr[4]+"/"+attr[5]+"/"+attr[6]+"/"+attr[7]+"/"+attr[8]+"/";
         if (attr2.length >= 3) {
-            String tmpPath = attr2[0] + "_" + caption + "_" + attr2[2] + "_" + attr2[3];
+            String tmpPath = filePath + attr2[0] + "_" + caption + "_" + attr2[2] + "_" + attr2[3];
             File to = new File(tmpPath);
             File from = new File(path);
             from.renameTo(to);
