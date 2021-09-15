@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+
         displayPhoto(photos.get(index));
     }
     private void displayPhoto(String path) {
@@ -101,8 +102,7 @@ public class MainActivity extends AppCompatActivity {
             iv.setImageBitmap(BitmapFactory.decodeFile(path));
             String[] attr = path.split("_");
             et.setText(attr[3]);
-            tv.setText(attr[4]);
-
+            tv.setText(attr[4] + "/ " +  attr[5]);
         }
     }
     private void updatePhoto(String path, String caption) {
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             File to = new File(tmpPath);
             File from = new File(path);
             from.renameTo(to);
-            System.out.println(from);
+            photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
         }
     }
     private File createImageFile() throws IOException {
