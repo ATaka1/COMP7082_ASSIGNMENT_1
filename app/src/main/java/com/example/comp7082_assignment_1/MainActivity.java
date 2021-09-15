@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
 
 
     private void updatePhoto(String path, String caption) {
-        String[] attr = path.split("_");
+        String[] attr = path.split("/");
         if (attr.length >= 5) {
             String tmpPath = attr[0] + "_" + attr[1] + "_" + attr[2] + "_" + caption + "_" + attr[4] + "_" + attr[5] + "_" + attr[6];
             File to = new File(tmpPath);
