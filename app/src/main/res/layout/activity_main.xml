@@ -1,27 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res‐auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayoutLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivGallery"
         android:layout_width="356dp"
         android:layout_height="265dp"
-        app:srcCompat="@drawable/ic_launcher_foreground"
-        tools:layout_editor_absoluteX="23dp"
-        tools:layout_editor_absoluteY="39dp" />
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+    <TextView
+        android:id="@+id/tvTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_below="@+id/ivGallery"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/etCaption"
+        android:layout_width="372dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTimestamp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@id/ivGallery"
+        />
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="65dp"
+        android:onClick="scrollPhotos"
+        android:text="next"
+        android:layout_below="@id/etCaption"
+        android:layout_alignRight="@+id/etCaption"
+        />
+    <Button
+        android:id="@+id/btnPrev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="65dp"
+        android:onClick="scrollPhotos"
+        android:text="prev"
+        android:layout_below="@id/etCaption"
+        android:layout_alignLeft="@+id/etCaption"
+        />
+
     <Button
         android:id="@+id/snap"
+        android:layout_width="85dp"
+        android:layout_height="60dp"
+        android:onClick="takePhoto"
+        android:text="Snap"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+         />
+
+    <Button
+        android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:text="snap"
-        android:onClick="takePhoto"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.786"
-        tools:layout_editor_absoluteX="0dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:onClick="startSearch"
+        android:text="search"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        />
+
+
+</RelativeLayout>
