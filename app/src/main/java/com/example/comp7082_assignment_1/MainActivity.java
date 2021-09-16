@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
 
     public void startSearch(View v) {
         Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, SEARCH_ACTIVITY_REQUEST_CODE);
     }
 
     public void takePhoto(View v) {
@@ -116,9 +116,12 @@ public class MainActivity extends AppCompatActivity implements ISearch {
 
 
     private void updatePhoto(String path, String caption) {
-        String[] attr = path.split("_");
-        if (attr.length >= 5) {
-            String tmpPath = attr[0] + "_" + attr[1] + "_" + attr[2] + "_" + caption + "_" + attr[4] + "_" + attr[5] + "_" + attr[6];
+        String[] attr = path.split("/");
+        String a = attr[9];
+        String[] attr2 = a.split("_");
+        String filePath = attr[0]+"/"+attr[1]+"/"+attr[2]+"/"+attr[3]+"/"+attr[4]+"/"+attr[5]+"/"+attr[6]+"/"+attr[7]+"/"+attr[8]+"/";
+        if (attr2.length >= 3) {
+            String tmpPath = filePath + attr2[0] + "_" + caption + "_" + attr2[2] + "_" + attr2[3];
             File to = new File(tmpPath);
             File from = new File(path);
             from.renameTo(to);
