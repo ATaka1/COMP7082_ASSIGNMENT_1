@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
 
     public void startSearch(View v) {
         Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, SEARCH_ACTIVITY_REQUEST_CODE);
     }
 
     public void takePhoto(View v) {
