@@ -31,17 +31,23 @@ public class UITest {
 
     @Test
     public void searchGalleryByTimeTest() {
-        onView(withId(R.id.btnSearch)).perform(click());
-        onView(withId(R.id.etFromDateTime)).perform(typeText("2021"), closeSoftKeyboard());
-        onView(withId(R.id.etFromDateTime)).perform(replaceText("2021‐09‐15 00:00:00"));
+        try{
+            Thread.sleep(5000);
+            onView(withId(R.id.btnSearch)).perform(click());
+            onView(withId(R.id.etFromDateTime)).perform(typeText("2021"), closeSoftKeyboard());
+            onView(withId(R.id.etFromDateTime)).perform(replaceText("2021‐09‐12 00:00:00"));
 
-        onView(withId(R.id.etToDateTime)).perform(typeText("2021"), closeSoftKeyboard());
-        onView(withId(R.id.etToDateTime)).perform(replaceText("2021‐09‐17 00:00:00"));
+            onView(withId(R.id.etToDateTime)).perform(typeText("2021"), closeSoftKeyboard());
+            onView(withId(R.id.etToDateTime)).perform(replaceText("2021‐09‐15 00:00:00"));
 
-        onView(withId(R.id.etKeywords)).perform(typeText("test picture 162754 B New mod"), closeSoftKeyboard());
-        onView(withId(R.id.go)).perform(click());
-        onView(withId(R.id.etCaption)).check(matches(withText("test picture 162754 B New mod")));
-        onView(withId(R.id.btnNext)).perform(click());
-        onView(withId(R.id.btnPrev)).perform(click());
+            onView(withId(R.id.etKeywords)).perform(typeText("Monster 2"), closeSoftKeyboard());
+            onView(withId(R.id.go)).perform(click());
+            onView(withId(R.id.etCaption)).check(matches(withText("Monster 2")));
+            onView(withId(R.id.btnNext)).perform(click());
+            onView(withId(R.id.btnPrev)).perform(click());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }
