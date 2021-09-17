@@ -31,8 +31,6 @@ public class UITest {
 
     @Test
     public void searchGalleryByTimeTest() {
-        try{
-            Thread.sleep(5000);
             onView(withId(R.id.btnSearch)).perform(click());
             onView(withId(R.id.etFromDateTime)).perform(typeText("2021"), closeSoftKeyboard());
             onView(withId(R.id.etFromDateTime)).perform(replaceText("2021‐09‐12 00:00:00"));
@@ -45,9 +43,5 @@ public class UITest {
             onView(withId(R.id.etCaption)).check(matches(withText("Monster 2")));
             onView(withId(R.id.btnNext)).perform(click());
             onView(withId(R.id.btnPrev)).perform(click());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
     }
 }
