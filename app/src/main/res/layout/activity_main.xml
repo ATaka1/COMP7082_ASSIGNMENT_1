@@ -21,10 +21,9 @@
     <TextView
         android:id="@+id/tvTimestamp"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
+        android:layout_height="66dp"
         android:layout_below="@+id/ivGallery"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:ems="10"
         android:text="" />
 
@@ -33,35 +32,33 @@
         android:layout_width="372dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTimestamp"
+        android:layout_alignLeft="@id/ivGallery"
+        android:layout_centerVertical="true"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text=""
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@id/ivGallery"
-        />
+        android:text="" />
 
     <Button
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/etCaption"
+        android:layout_alignRight="@+id/etCaption"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="65dp"
         android:onClick="scrollPhotos"
-        android:text="next"
-        android:layout_below="@id/etCaption"
-        android:layout_alignRight="@+id/etCaption"
-        />
+        android:text="next" />
+
     <Button
         android:id="@+id/btnPrev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="65dp"
-        android:onClick="scrollPhotos"
-        android:text="prev"
         android:layout_below="@id/etCaption"
         android:layout_alignLeft="@+id/etCaption"
-        />
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="10dp"
+        android:onClick="scrollPhotos"
+        android:text="prev" />
 
     <Button
         android:id="@+id/snap"
