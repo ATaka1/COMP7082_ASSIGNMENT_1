@@ -60,6 +60,8 @@ public class ShareActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // This function will create and start the share intent. Files are inserted into MediaStore.Images
+    // so that other applications will be willing to read the data (the image).
     public void executeShareIntent() {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpg");
@@ -81,7 +83,8 @@ public class ShareActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(share, "Share image"));
     }
 
-    // Creates Action Send intent to share photo with other applications.
+    // Checks user permissions for writing to external storage, and then executes executeShareIntent
+    // as long as permission are granted.
     public void shareImage(View view) {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpg");
@@ -98,7 +101,8 @@ public class ShareActivity extends AppCompatActivity {
 
     }
 
-    // When user says yes or no to permission request this will execute.
+    // When user says yes or no to permission request this will check and then
+    // run executeShareIntent.
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
