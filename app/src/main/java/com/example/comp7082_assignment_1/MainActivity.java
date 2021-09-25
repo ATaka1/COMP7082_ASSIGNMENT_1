@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -87,6 +88,18 @@ public class MainActivity extends AppCompatActivity implements ISearch {
     public void startSearch(View v) {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivityForResult(intent, SEARCH_ACTIVITY_REQUEST_CODE);
+    }
+
+    public void startShareActivity(View v) {
+        Intent intent = new Intent(this, ShareActivity.class);
+        // Check if there are any photos.
+        if (photos != null) {
+            intent.putExtra("filepath", photos.get(index));
+            startActivity(intent);
+        // If there are no photos then let the user know.
+        } else {
+            Toast.makeText(getApplicationContext(), "No photos yet", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void oldtakePhoto(View v) {

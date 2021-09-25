@@ -4,13 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.3234375" />
+        <entry key="..\:/Users/spenc/Desktop/software_engineering_assignment1/COMP7082_ASSIGNMENT_1/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/spenc/Desktop/software_engineering_assignment1/COMP7082_ASSIGNMENT_1/app/src/main/res/layout/activity_search.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/spenc/Desktop/software_engineering_assignment1/COMP7082_ASSIGNMENT_1/app/src/main/res/layout/activity_share.xml" value="0.264" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16757246376811594" />
-        <entry key="app/src/main/res/layout/activity_search.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_search.xml" value="0.30833333333333335" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.16757246376811594" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
