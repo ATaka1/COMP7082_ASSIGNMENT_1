@@ -38,22 +38,27 @@ public class ShareActivity extends AppCompatActivity {
         displayPhoto(file);
     }
 
+    // Display the photo user wants to share on the screen.
     public void displayPhoto(String filepath) {
         ImageView image = findViewById(R.id.shareImage);
         image.setImageBitmap(BitmapFactory.decodeFile(filepath));
     }
 
+    // Return to the main activity
     public void returnMainActivity(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
+    // Creates Action Send intent to share photo with other applications.
     public void shareImage(View view){
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpg");
+        // Easiest way I found to get a proper URI for the image. File --> getUriForFile() using FileProvider
         File myFile = new File(file);
         Uri uri = FileProvider.getUriForFile(getApplicationContext(), "com.example.comp7082_assignment_1.fileprovider", myFile);
         share.putExtra(Intent.EXTRA_STREAM, uri);
+        // Start sharing activity, createChooser lets user choose application to share to.
         startActivity(Intent.createChooser(share, "Share image"));
     }
 
