@@ -60,11 +60,4 @@ public class UITest {
         onView(withId(R.id.tvLat)).check(matches(withText("37.42342")));
         onView(withId(R.id.tvLong)).check(matches(withText("-122.08395")));
     }
-
-    @Test
-    public void shareButton() {
-        onView(withId(R.id.shareButton)).perform(click());
-
-        onView(withId(R.id.shareBtn)).perform(click());
-    }
 }
