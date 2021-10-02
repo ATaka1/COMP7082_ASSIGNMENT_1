@@ -39,23 +39,23 @@
         android:text="" />
     <TextView
         android:id="@+id/tvLat"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@+id/tvTimestamp"
         android:layout_alignLeft="@+id/etCaption"
         android:layout_centerInParent="true"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="20dp"
         android:ems="10"
         android:text="" />
 
     <TextView
         android:id="@+id/tvLong"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@+id/tvTimestamp"
         android:layout_alignRight="@+id/etCaption"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:text="" />
 
