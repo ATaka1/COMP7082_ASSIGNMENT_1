@@ -53,12 +53,12 @@ public class UITest {
         onView(withId(R.id.etFromDateTime)).perform(clearText(), closeSoftKeyboard());
         onView(withId(R.id.etFromDateTime)).perform(clearText());
 
-        onView(withId(R.id.etLocationLat)).perform(clearText(), typeText("37.422"), closeSoftKeyboard());
-        onView(withId(R.id.etLocationLong)).perform(clearText(), typeText("-122.084"), closeSoftKeyboard());
+        onView(withId(R.id.etLocationLat)).perform(clearText(), typeText("37.42342"), closeSoftKeyboard());
+        onView(withId(R.id.etLocationLong)).perform(clearText(), typeText("-122.08395"), closeSoftKeyboard());
 
         onView(withId(R.id.go)).perform(click());
-        onView(withId(R.id.tvLat)).check(matches(withText("37.422")));
-        onView(withId(R.id.tvLong)).check(matches(withText("-122.084")));
+        onView(withId(R.id.tvLat)).check(matches(withText("37.42342")));
+        onView(withId(R.id.tvLong)).check(matches(withText("-122.08395")));
     }
 
     @Test
