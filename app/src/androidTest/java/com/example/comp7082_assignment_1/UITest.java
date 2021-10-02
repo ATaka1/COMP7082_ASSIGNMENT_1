@@ -8,7 +8,9 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -51,14 +53,14 @@ public class UITest {
     public void searchGalleryByLocationTest() {
         onView(withId(R.id.btnSearch)).perform(click());
         onView(withId(R.id.etFromDateTime)).perform(clearText(), closeSoftKeyboard());
-        onView(withId(R.id.etFromDateTime)).perform(clearText());
+        onView(withId(R.id.etToDateTime)).perform(clearText());
 
-        onView(withId(R.id.etLocationLat)).perform(clearText(), typeText("37.42342"), closeSoftKeyboard());
-        onView(withId(R.id.etLocationLong)).perform(clearText(), typeText("-122.08395"), closeSoftKeyboard());
+        onView(withId(R.id.etLocationLat)).perform(clearText(), typeText("37.42179"), closeSoftKeyboard());
+        onView(withId(R.id.etLocationLong)).perform(clearText(), typeText("-122.08399"), closeSoftKeyboard());
 
         onView(withId(R.id.go)).perform(click());
-        onView(withId(R.id.tvLat)).check(matches(withText("37.42342")));
-        onView(withId(R.id.tvLong)).check(matches(withText("-122.08395")));
+        onView(withId(R.id.tvLat)).check(matches(withText("37.42179")));
+        onView(withId(R.id.tvLong)).check(matches(withText("-122.08399")));
     }
 
     @Test
