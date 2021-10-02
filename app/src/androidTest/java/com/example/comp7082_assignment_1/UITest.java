@@ -39,9 +39,9 @@ public class UITest {
         onView(withId(R.id.etToDateTime)).perform(clearText(), typeText("20210917000000"), closeSoftKeyboard());
         onView(withId(R.id.etToDateTime)).perform(replaceText("2021‐10-02 00:00:00"));
 
-        onView(withId(R.id.etKeywords)).perform(typeText("Coffee"), closeSoftKeyboard());
+        onView(withId(R.id.etKeywords)).perform(typeText("TV"), closeSoftKeyboard());
         onView(withId(R.id.go)).perform(click());
-        onView(withId(R.id.etCaption)).check(matches(withText("Coffee")));
+        onView(withId(R.id.etCaption)).check(matches(withText("TV")));
 
         onView(withId(R.id.btnPrev)).perform(click());
         onView(withId(R.id.btnNext)).perform(click());
