@@ -51,7 +51,7 @@ public class UITest {
     public void searchGalleryByLocationTest() {
         onView(withId(R.id.btnSearch)).perform(click());
         onView(withId(R.id.etFromDateTime)).perform(clearText(), closeSoftKeyboard());
-        onView(withId(R.id.etFromDateTime)).perform(clearText());
+        onView(withId(R.id.etToDateTime)).perform(clearText());
 
         onView(withId(R.id.etLocationLat)).perform(clearText(), typeText("37.422"), closeSoftKeyboard());
         onView(withId(R.id.etLocationLong)).perform(clearText(), typeText("-122.084"), closeSoftKeyboard());
