@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
 
             iv.setImageBitmap(BitmapFactory.decodeFile(path));
             String[] attr = path.split("_");
-            String[] coord = attr[4].split(",");
+            String[] coords = attr[4].split(",");
             et.setText(attr[3]);
             String tempTv = attr[4] + " / " + attr[5];
             String lat = "";
@@ -230,9 +230,9 @@ public class MainActivity extends AppCompatActivity implements ISearch {
             if(attr.length > 6) {
                 tempTv = attr[5] + " / " + attr[6];
             }
-            if(coord.length > 1) {
-                lat = coord[0];
-                longitude = coord[1];
+            if(coords.length > 1) {
+                lat = coords[0];
+                longitude = coords[1];
             }
             tv.setText(tempTv);
             lattv.setText(lat);

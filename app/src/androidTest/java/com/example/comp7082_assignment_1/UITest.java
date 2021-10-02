@@ -39,9 +39,9 @@ public class UITest {
         onView(withId(R.id.etToDateTime)).perform(clearText(), typeText("20210917000000"), closeSoftKeyboard());
         onView(withId(R.id.etToDateTime)).perform(replaceText("2021‐10-02 00:00:00"));
 
-        onView(withId(R.id.etKeywords)).perform(typeText("cat"), closeSoftKeyboard());
+        onView(withId(R.id.etKeywords)).perform(typeText("Coffee"), closeSoftKeyboard());
         onView(withId(R.id.go)).perform(click());
-        onView(withId(R.id.etCaption)).check(matches(withText("cat")));
+        onView(withId(R.id.etCaption)).check(matches(withText("Coffee")));
 
         onView(withId(R.id.btnPrev)).perform(click());
         onView(withId(R.id.btnNext)).perform(click());
@@ -53,11 +53,17 @@ public class UITest {
         onView(withId(R.id.etFromDateTime)).perform(clearText(), closeSoftKeyboard());
         onView(withId(R.id.etFromDateTime)).perform(clearText());
 
-        onView(withId(R.id.etLocationLat)).perform(clearText(), typeText("37.42342"), closeSoftKeyboard());
-        onView(withId(R.id.etLocationLong)).perform(clearText(), typeText("-122.08395"), closeSoftKeyboard());
+        onView(withId(R.id.etLocationLat)).perform(clearText(), typeText("37.422"), closeSoftKeyboard());
+        onView(withId(R.id.etLocationLong)).perform(clearText(), typeText("-122.084"), closeSoftKeyboard());
 
         onView(withId(R.id.go)).perform(click());
-        onView(withId(R.id.tvLat)).check(matches(withText("37.42342")));
-        onView(withId(R.id.tvLong)).check(matches(withText("-122.08395")));
+        onView(withId(R.id.tvLat)).check(matches(withText("37.422")));
+        onView(withId(R.id.tvLong)).check(matches(withText("-122.084")));
+    }
+
+    @Test
+    public void shareButton() {
+        onView(withId(R.id.shareButton)).perform(click());
+        onView(withId(R.id.shareBtn)).perform(click());
     }
 }
