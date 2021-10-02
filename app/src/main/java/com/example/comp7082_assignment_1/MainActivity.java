@@ -2,6 +2,7 @@ package com.example.comp7082_assignment_1;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -28,7 +29,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.Console;
 import java.io.File;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
                     new AlertDialog.Builder(this)
                             .setTitle("Notice:")
                             .setMessage("Without location access, PhotoGallery will be unable to record location data for photos,"
-                            + "and location search will not work correctly.")
+                                    + "and location search will not work correctly.")
                             .setPositiveButton(android.R.string.yes, null)
 //                            .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         if (photos != null) {
             intent.putExtra("filepath", photos.get(index));
             startActivity(intent);
-        // If there are no photos then let the user know.
+            // If there are no photos then let the user know.
         } else {
             Toast.makeText(getApplicationContext(), "No photos yet", Toast.LENGTH_SHORT).show();
         }
@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
             try {
-
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
@@ -129,30 +128,25 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 fusedLocationClient.getLastLocation()
-                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                            @Override
-                            public void onSuccess(Location location) {
-                                // Got last known location. In some rare situations this can be null.
-                                if (location != null) {
-                                    locationStr = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES)
-                                            + "," + Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
-                                }
-
-                                File photoFile = null;
-                                try {
-                                    photoFile = createImageFile();
-                                } catch (IOException ex) {
-                                    // Error occurred while creating the File
-                                }
-                                // Continue only if the File was successfully created
-                                if (photoFile != null) {
-                                    Uri photoURI = FileProvider.getUriForFile(MainActivity.this, "com.example.comp7082_assignment_1.fileprovider", photoFile);
-                                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                                }
+                        .addOnSuccessListener(this, location -> {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                locationStr = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES)
+                                        + "," + Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
+                            }
+                            File photoFile = null;
+                            try {
+                                photoFile = createImageFile();
+                            } catch (IOException ex) {
+                                // Error occurred while creating the File
+                            }
+                            // Continue only if the File was successfully created
+                            if (photoFile != null) {
+                                Uri photoURI = FileProvider.getUriForFile(MainActivity.this, "com.example.comp7082_assignment_1.fileprovider", photoFile);
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                             }
                         });
-
             } else {
                 oldtakePhoto(v);
             }
@@ -216,19 +210,33 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         ImageView iv = (ImageView) findViewById(R.id.ivGallery);
         TextView tv = (TextView) findViewById(R.id.tvTimestamp);
         EditText et = (EditText) findViewById(R.id.etCaption);
+        TextView longtv = (TextView) findViewById(R.id.tvLong);
+        TextView lattv = (TextView) findViewById(R.id.tvLat);
         if (path == null || path == "") {
             iv.setImageResource(R.mipmap.ic_launcher);
             et.setText("");
             tv.setText("");
+            longtv.setText("");
+            lattv.setText("");
         } else {
+
             iv.setImageBitmap(BitmapFactory.decodeFile(path));
             String[] attr = path.split("_");
+            String[] coord = attr[4].split(",");
             et.setText(attr[3]);
             String tempTv = attr[4] + " / " + attr[5];
-            if (attr.length > 6) {
-                tempTv = attr[5] + " / " + attr[6] + "\n Location: " + attr[4];
+            String lat = "";
+            String longitude = "";
+            if(attr.length > 6) {
+                tempTv = attr[5] + " / " + attr[6];
+            }
+            if(coord.length > 1) {
+                lat = coord[0];
+                longitude = coord[1];
             }
             tv.setText(tempTv);
+            lattv.setText(lat);
+            longtv.setText(longitude);
         }
     }
 
