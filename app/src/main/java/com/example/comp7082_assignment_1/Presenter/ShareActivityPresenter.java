@@ -10,21 +10,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import com.example.comp7082_assignment_1.Gallery;
-import com.example.comp7082_assignment_1.MainActivity;
 import com.example.comp7082_assignment_1.R;
-import com.example.comp7082_assignment_1.View.ShareActivity;
-
 import java.io.OutputStream;
 
 public class ShareActivityPresenter extends AppCompatActivity implements Gallery.SharePresenter {
@@ -65,6 +58,8 @@ public class ShareActivityPresenter extends AppCompatActivity implements Gallery
         activity.startActivity(Intent.createChooser(share, "Share image"));
     }
 
+    // Checks user permissions for writing to external storage, and then executes executeShareIntent
+    // as long as permission are granted.
     @Override
     public void shareImage() {
         Intent share = new Intent(Intent.ACTION_SEND);
@@ -81,6 +76,13 @@ public class ShareActivityPresenter extends AppCompatActivity implements Gallery
         }
     }
 
+    // Displays the photo on the share activity.
+    @Override
+    public void displayPhoto(String filepath) {
+        ImageView image = activity.findViewById(R.id.shareImage);
+        image.setImageBitmap(BitmapFactory.decodeFile(filepath));
+    }
+
     // When user says yes or no to permission request this will check and then
     // run executeShareIntent.
     @Override
@@ -91,7 +93,7 @@ public class ShareActivityPresenter extends AppCompatActivity implements Gallery
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     executeShareIntent();
                 } else {
-                    Toast.makeText(this, "The app was not allowed to write in your storage", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "The app was not allowed to write in your storage", Toast.LENGTH_LONG).show();
                 }
             }
         }
