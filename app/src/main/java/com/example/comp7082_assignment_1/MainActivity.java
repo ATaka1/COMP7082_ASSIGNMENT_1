@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         super.onCreate(savedInstanceState);
         photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "", "");
         setContentView(R.layout.activity_main);
+
         if (photos.size() == 0) {
             displayPhoto(null);
         } else {
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
 
 
     public void startSearch(View v) {
+        System.out.println("Starting Search");
         Intent intent = new Intent(this, SearchActivity.class);
         startActivityForResult(intent, SEARCH_ACTIVITY_REQUEST_CODE);
     }
