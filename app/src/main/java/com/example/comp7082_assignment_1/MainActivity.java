@@ -39,6 +39,7 @@ import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import com.example.comp7082_assignment_1.View.ShareActivity;
 
 public class MainActivity extends AppCompatActivity implements ISearch {
     private static final int SEARCH_ACTIVITY_REQUEST_CODE = 2;
