@@ -24,14 +24,17 @@ public class LoggingAspect {
         String tag = point.getTarget().getClass().toString();
         Object output = null;
         StringBuilder logMsg = new StringBuilder("Class:"+point.getTarget().getClass()+" entry -> method ->"+point.getSignature().getName());
+
         logMsg.append(System.getProperty("line.separator"));
         Log.i(tag,"Class:"+point.getTarget().getClass()+" entry -> method ->"+point.getSignature().getName());
         try {
             long elapsedTime = System.currentTimeMillis() - start;
             logMsg.append("Method execution time: " + elapsedTime + " milliseconds.");
             logMsg.append(System.getProperty("line.separator"));
+
             Log.i(tag, "Method execution time: " + elapsedTime + " milliseconds.");
             logMsg.append("Class:"+point.getTarget().getClass()+" exit -> method ->"+point.getSignature().getName());
+
             logMsg.append(System.getProperty("line.separator"));
             Log.i(tag, "Class:"+point.getTarget().getClass()+" exit -> method ->"+point.getSignature().getName());
         } catch (Throwable t) {
@@ -55,8 +58,10 @@ public class LoggingAspect {
             long elapsedTime = System.currentTimeMillis() - start;
             logMsg.append("Method execution time: " + elapsedTime + " milliseconds.");
             logMsg.append(System.getProperty("line.separator"));
+
             Log.i(tag, "Method execution time: " + elapsedTime + " milliseconds.");
             logMsg.append("Class:"+point.getTarget().getClass()+" exit -> method ->"+point.getSignature().getName());
+
             logMsg.append(System.getProperty("line.separator"));
             Log.i(tag, "Class:"+point.getTarget().getClass()+" exit -> method ->"+point.getSignature().getName());
         } catch (Throwable t) {
