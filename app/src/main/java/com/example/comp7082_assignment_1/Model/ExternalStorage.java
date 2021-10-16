@@ -9,7 +9,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ExternalStorage implements Gallery.ExternalStorageAccess {
 
@@ -31,10 +35,33 @@ public class ExternalStorage implements Gallery.ExternalStorageAccess {
     public ArrayList<String> getPhotoList(Date startTimestamp, Date endTimestamp, String keywords, String latitude, String longitude) {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), "/Android/data/com.example.comp7082_assignment_1/files/Pictures");
-        ArrayList<String> photos = new ArrayList<String>();
-        File[] fList = file.listFiles();
-        if (fList != null) {
-            for (File f : fList) {
+        ArrayList<String> photos = new ArrayList<>();
+        //File[] fList = file.listFiles();
+        List<File> fList = Arrays.asList(Objects.requireNonNull(file.listFiles()));
+
+        if (file.listFiles() != null) {
+
+
+            fList.stream()
+                    //Filter for keywords
+                    .filter(f -> keywords != null).filter(f -> f.getPath().split("_")[3].contains(keywords))
+                    //Filter for latitude
+                    .filter(f -> Objects.equals(latitude, "") ||
+                            ((f.getPath().split("_").length > 6 &&
+                                    f.getPath().split("_")[4].split(",").length > 1) &&
+                                    f.getPath().split("_")[4].split(",")[0].startsWith(latitude)))
+                    //Filter of longitude
+                    .filter(f -> Objects.equals(longitude, "") ||
+                            ((f.getPath().split("_").length > 6 &&
+                                    f.getPath().split("_")[4].split(",").length > 1) &&
+                                    f.getPath().split("_")[4].split(",")[1].startsWith(longitude)))
+                    //Filter for start and end time
+                    .filter(f -> (startTimestamp == null && endTimestamp == null)
+                            || (f.lastModified() >= startTimestamp.getTime()
+                            && f.lastModified() <= endTimestamp.getTime()))
+                    //Compiling end result
+                    .forEach(f -> photos.add(f.getPath()));
+            /*for (File f : fList) {
                 String[] attr = f.getPath().split("_");
                 String f_keyword = attr[3];
                 String f_lat = "";
@@ -53,7 +80,7 @@ public class ExternalStorage implements Gallery.ExternalStorageAccess {
                         && (longitude == "" || f_long.startsWith(longitude))) {
                     photos.add(f.getPath());
                 }
-            }
+            }*/
         }
         return photos;
     }
