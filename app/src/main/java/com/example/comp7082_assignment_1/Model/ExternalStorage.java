@@ -35,38 +35,31 @@ public class ExternalStorage implements Gallery.ExternalStorageAccess {
     public ArrayList<String> getPhotoList(Date startTimestamp, Date endTimestamp, String keywords, String latitude, String longitude) {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), "/Android/data/com.example.comp7082_assignment_1/files/Pictures");
-        ArrayList<String> photos = new ArrayList<String>();
+        ArrayList<String> photos = new ArrayList<>();
         //File[] fList = file.listFiles();
         List<File> fList = Arrays.asList(Objects.requireNonNull(file.listFiles()));
 
         if (file.listFiles() != null) {
 
 
-            fList = fList.stream()
+            fList.stream()
+                    //Filter for keywords
                     .filter(f -> keywords != null).filter(f -> f.getPath().split("_")[3].contains(keywords))
-                    .collect(Collectors.toList());
-
-            fList = fList.stream()
-                    .filter(f -> latitude == "" ||
+                    //Filter for latitude
+                    .filter(f -> Objects.equals(latitude, "") ||
                             ((f.getPath().split("_").length > 6 &&
                                     f.getPath().split("_")[4].split(",").length > 1) &&
                                     f.getPath().split("_")[4].split(",")[0].startsWith(latitude)))
-                    .collect(Collectors.toList());
-
-            fList = fList.stream()
-                    .filter(f -> longitude == "" ||
+                    //Filter of longitude
+                    .filter(f -> Objects.equals(longitude, "") ||
                             ((f.getPath().split("_").length > 6 &&
                                     f.getPath().split("_")[4].split(",").length > 1) &&
                                     f.getPath().split("_")[4].split(",")[1].startsWith(longitude)))
-                    .collect(Collectors.toList());
-
-            fList = fList.stream()
+                    //Filter for start and end time
                     .filter(f -> (startTimestamp == null && endTimestamp == null)
                             || (f.lastModified() >= startTimestamp.getTime()
                             && f.lastModified() <= endTimestamp.getTime()))
-                    .collect(Collectors.toList());
-
-            fList.stream()
+                    //Compiling end result
                     .forEach(f -> photos.add(f.getPath()));
             /*for (File f : fList) {
                 String[] attr = f.getPath().split("_");
