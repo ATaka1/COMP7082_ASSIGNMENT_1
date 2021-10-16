@@ -46,7 +46,7 @@ public class MainActivityPresenter extends AppCompatActivity implements Gallery.
         this.context = context;
         this.activity = activity;
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
-        this.storage = new ExternalStorage();
+        this.storage = new ExternalStorage(context);
     };
 
     @Override
