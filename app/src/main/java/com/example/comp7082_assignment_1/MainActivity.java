@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.libs.Logger;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
     private String mCurrentPhotoPath;
     private FusedLocationProviderClient fusedLocationClient;
     private String locationStr;
+    private Logger logger = Logger.getInstance();
 
 
     @Override

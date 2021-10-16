@@ -30,7 +30,7 @@ android {
     sourceSets {
         main {
             java {
-                srcDirs 'src/main/java', 'src/aspects/java'
+                srcDirs 'src/main/java', 'src/aspects/java', 'src/utils/java'
             }
         }
     }
