@@ -52,16 +52,20 @@ public class MainActivity extends AppCompatActivity implements ISearch {
     private String mCurrentPhotoPath;
     private FusedLocationProviderClient fusedLocationClient;
     private String locationStr;
-    private Logger logger = Logger.getInstance();
+    private File storageDir;
+    private Logger logger;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        logger = Logger.getInstance();
         photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "", "");
         setContentView(R.layout.activity_main);
 
         if (photos.size() == 0) {
+
             displayPhoto(null);
         } else {
             displayPhoto(photos.get(index));
@@ -266,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "_caption_" + locationStr + "_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;

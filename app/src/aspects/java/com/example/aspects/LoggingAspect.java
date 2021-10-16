@@ -1,11 +1,11 @@
 package com.example.aspects;
+
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-
 import com.example.libs.Logger;
-
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -14,32 +14,30 @@ import org.aspectj.lang.annotation.Pointcut;
 public class LoggingAspect {
     private Logger logger = Logger.getInstance();
 
-    private static final String TAG = "MyActivity";
 
-//    @Pointcut("execution(* onCreate(..))")
-//    public void onButtonClick() {
-//        logger.appendLog("Button Clicked");
-//        Log.i(TAG,"@PointCut On Button CLick");
-//    }
-//
-//    @Before("onButtonClick() && args(view)")
-//    public void onButtonClickLog(View v) {
-//        if(v instanceof TextView) {
-//            String text = ((TextView) v).getText().toString();
-//            logger.appendLog(text);
-//        }
-//        Log.i(v.toString(),"@Before On Button CLick");
-//    }
-
-    @Before("call(void java.io.PrintStream.println(String)) " +
-            "&& !within(com.example.aspects..*)")
-    public void beforePrintlnCall() {
-        logger.appendLog("Before Print Call");
+    @Pointcut("execution(* com.example.comp7082_assignment_1.*..*(..))")
+        public void mainOperations() {
     }
-
-    @After("call(void java.io.PrintStream.println(String)) " +
-            "&&  !within(com.example.aspects..*)")
-    public void afterPrintlnCall() {
-        logger.appendLog("Just made call to print Hello World");
+    @After("mainOperations()")
+    public Object profileMain(JoinPoint point) throws Throwable {
+        long start = System.currentTimeMillis();
+        String tag = point.getTarget().getClass().toString();
+        Object output = null;
+        StringBuilder logMsg = new StringBuilder("Class:"+point.getTarget().getClass()+" entry -> method ->"+point.getSignature().getName());
+        logMsg.append(System.getProperty("line.separator"));
+        Log.i(tag,"Class:"+point.getTarget().getClass()+" entry -> method ->"+point.getSignature().getName());
+        try {
+            long elapsedTime = System.currentTimeMillis() - start;
+            logMsg.append("Method execution time: " + elapsedTime + " milliseconds.");
+            logMsg.append(System.getProperty("line.separator"));
+            Log.i(tag, "Method execution time: " + elapsedTime + " milliseconds.");
+            logMsg.append("Class:"+point.getTarget().getClass()+" exit -> method ->"+point.getSignature().getName());
+            logMsg.append(System.getProperty("line.separator"));
+            Log.i(tag, "Class:"+point.getTarget().getClass()+" exit -> method ->"+point.getSignature().getName());
+        } catch (Throwable t) {
+            throw new InternalError(t.getMessage());
+        }
+        logger.appendLog(logMsg.toString());
+        return output;
     }
 }
