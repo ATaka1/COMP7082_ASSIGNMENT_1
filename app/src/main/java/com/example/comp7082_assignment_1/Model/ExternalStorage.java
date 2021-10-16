@@ -16,9 +16,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ExternalStorage implements Gallery.ExternalStorageAccess {
-
+    private File storageDir;
     public ExternalStorage() {
-
+    }
+    public ExternalStorage(Context context) {
+        storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     }
 
     @Override
@@ -26,7 +28,7 @@ public class ExternalStorage implements Gallery.ExternalStorageAccess {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "_caption_" + locationString + "_" + timeStamp + "_";
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        //File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         return image;
     }
