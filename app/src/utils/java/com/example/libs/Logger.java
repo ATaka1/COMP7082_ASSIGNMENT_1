@@ -18,9 +18,9 @@ public class Logger {
     private Logger() {
         this.appDirectory = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.example.comp7082_assignment_1/files");
         this.logDirectory = new File(this.appDirectory + "/logs");
+
         if(!this.appDirectory.exists()) this.appDirectory.mkdir();
         if(!this.logDirectory.exists()) this.logDirectory.mkdir();
-
     }
 
     private void createLogFile() {
