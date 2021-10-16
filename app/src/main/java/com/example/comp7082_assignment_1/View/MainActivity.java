@@ -24,7 +24,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.comp7082_assignment_1.Gallery;
-import com.example.comp7082_assignment_1.ISearch;
 import com.example.comp7082_assignment_1.Presenter.MainActivityPresenter;
 import com.example.comp7082_assignment_1.R;
 import com.example.comp7082_assignment_1.View.SearchActivity;
@@ -212,7 +211,5 @@ public class MainActivity extends AppCompatActivity implements Gallery.MainActiv
             photos = presenter.findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "","");
         }
     }
-
-
 
 }

@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.comp7082_assignment_1.Gallery;
+import com.example.comp7082_assignment_1.Model.ExternalStorage;
 import com.example.comp7082_assignment_1.View.MainActivity;
 import com.example.comp7082_assignment_1.View.SearchActivity;
 import com.example.comp7082_assignment_1.View.ShareActivity;
@@ -38,12 +39,14 @@ public class MainActivityPresenter extends AppCompatActivity implements Gallery.
     private String locationStr;
     private FusedLocationProviderClient fusedLocationClient;
     private String mCurrentPhotoPath;
+    private ExternalStorage storage;
 
     public MainActivityPresenter(Gallery.MainActivityView view, Context context, Activity activity) {
         this.view = view;
         this.context = context;
         this.activity = activity;
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
+        this.storage = new ExternalStorage();
     };
 
     @Override
@@ -97,50 +100,18 @@ public class MainActivityPresenter extends AppCompatActivity implements Gallery.
         }
     };
 
-    @Override
     public File createImageFile() throws IOException{
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "_caption_" + locationStr + "_" + timeStamp + "_";
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        File image = storage.createImageFile(locationStr, context);
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
     @Override
     public ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords, String latitude, String longitude) {
-        File file = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath(), "/Android/data/com.example.comp7082_assignment_1/files/Pictures");
-        ArrayList<String> photos = new ArrayList<String>();
-        File[] fList = file.listFiles();
-        if (fList != null) {
-            for (File f : fList) {
-                String[] attr = f.getPath().split("_");
-                String f_keyword = attr[3];
-                String f_lat = "";
-                String f_long = "";
-                if (attr.length > 6) {
-                    String[] location = attr[4].split(",");
-                    if (location.length > 1) {
-                        f_lat = location[0];
-                        f_long = location[1];
-                    }
-                }
-                if (((startTimestamp == null && endTimestamp == null) || (f.lastModified() >= startTimestamp.getTime()
-                        && f.lastModified() <= endTimestamp.getTime()))
-                        && (keywords == "" || f_keyword.contains(keywords))
-                        && (latitude == "" || f_lat.startsWith(latitude))
-                        && (longitude == "" || f_long.startsWith(longitude))) {
-                    photos.add(f.getPath());
-                }
-            }
-        }
+        ArrayList<String> photos = storage.getPhotoList(startTimestamp, endTimestamp, keywords, latitude, longitude);
         return photos;
     };
-
-
-
 
 
 };

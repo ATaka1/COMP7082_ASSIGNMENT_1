@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.comp7082_assignment_1.Gallery;
-import com.example.comp7082_assignment_1.MainActivity;
+import com.example.comp7082_assignment_1.View.MainActivity;
 import com.example.comp7082_assignment_1.Presenter.ShareActivityPresenter;
 import com.example.comp7082_assignment_1.R;
 

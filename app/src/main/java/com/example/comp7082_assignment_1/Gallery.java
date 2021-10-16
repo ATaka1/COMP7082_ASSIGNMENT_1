@@ -1,5 +1,6 @@
 package com.example.comp7082_assignment_1;
 
+import android.content.Context;
 import android.view.View;
 
 import java.io.File;
@@ -9,9 +10,7 @@ import java.util.Date;
 
 public interface Gallery {
 
-    interface ShareView {
-
-    }
+    interface ShareView {};
 
     interface SharePresenter {
         void shareImage();
@@ -34,8 +33,12 @@ public interface Gallery {
     interface MainActivityPresenter {
         void takePhoto(View view);
         void oldTakePhoto(View view);
-        File createImageFile() throws IOException;
         ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords, String latitude, String longitude);
     };
+
+    interface ExternalStorageAccess {
+        File createImageFile(String locationString, Context context) throws IOException;
+        ArrayList<String> getPhotoList(Date startTimestamp, Date endTimestamp, String keywords, String latitude, String longitude);
+    }
 
 }
