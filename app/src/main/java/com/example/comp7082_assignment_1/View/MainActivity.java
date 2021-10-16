@@ -23,9 +23,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.comp7082_assignment_1.Gallery;
 import com.example.comp7082_assignment_1.ISearch;
+import com.example.comp7082_assignment_1.Presenter.MainActivityPresenter;
 import com.example.comp7082_assignment_1.R;
-import com.example.comp7082_assignment_1.SearchActivity;
+import com.example.comp7082_assignment_1.View.SearchActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -36,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements ISearch {
+public class MainActivity extends AppCompatActivity implements Gallery.MainActivityView {
     private static final int SEARCH_ACTIVITY_REQUEST_CODE = 2;
     private ArrayList<String> photos = null;
     private int index = 0;
@@ -44,12 +46,13 @@ public class MainActivity extends AppCompatActivity implements ISearch {
     private String mCurrentPhotoPath;
     private FusedLocationProviderClient fusedLocationClient;
     private String locationStr;
-
+    private MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "", "");
+        presenter = new MainActivityPresenter(this, getApplicationContext(), this);
+        photos = presenter.findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "", "");
         setContentView(R.layout.activity_main);
         if (photos.size() == 0) {
             displayPhoto(null);
@@ -79,12 +82,13 @@ public class MainActivity extends AppCompatActivity implements ISearch {
                 }
             });
 
-
-    public void startSearch(View v) {
+    @Override
+    public void startSearchActivity(View v) {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivityForResult(intent, SEARCH_ACTIVITY_REQUEST_CODE);
     }
 
+    @Override
     public void startShareActivity(View v) {
         Intent intent = new Intent(this, ShareActivity.class);
         // Check if there are any photos.
@@ -97,83 +101,8 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         }
     }
 
-    public void oldtakePhoto(View v) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "com.example.comp7082_assignment_1.fileprovider", photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
-    }
-
     public void takePhoto(View v) {
-        locationStr = "";
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                fusedLocationClient.getLastLocation()
-                        .addOnSuccessListener(this, location -> {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                locationStr = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES)
-                                        + "," + Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
-                            }
-                            File photoFile = null;
-                            try {
-                                photoFile = createImageFile();
-                            } catch (IOException ex) {
-                                // Error occurred while creating the File
-                            }
-                            // Continue only if the File was successfully created
-                            if (photoFile != null) {
-                                Uri photoURI = FileProvider.getUriForFile(MainActivity.this, "com.example.comp7082_assignment_1.fileprovider", photoFile);
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                            }
-                        });
-            } else {
-                oldtakePhoto(v);
-            }
-        }
-    }
-
-    private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords, String latitude, String longitude) {
-        File file = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath(), "/Android/data/com.example.comp7082_assignment_1/files/Pictures");
-        ArrayList<String> photos = new ArrayList<String>();
-        File[] fList = file.listFiles();
-        if (fList != null) {
-            for (File f : fList) {
-                String[] attr = f.getPath().split("_");
-                String f_keyword = attr[3];
-                String f_lat = "";
-                String f_long = "";
-                if (attr.length > 6) {
-                    String[] location = attr[4].split(",");
-                    if (location.length > 1) {
-                        f_lat = location[0];
-                        f_long = location[1];
-                    }
-                }
-                if (((startTimestamp == null && endTimestamp == null) || (f.lastModified() >= startTimestamp.getTime()
-                        && f.lastModified() <= endTimestamp.getTime()))
-                        && (keywords == "" || f_keyword.contains(keywords))
-                        && (latitude == "" || f_lat.startsWith(latitude))
-                        && (longitude == "" || f_long.startsWith(longitude))) {
-                    photos.add(f.getPath());
-                }
-            }
-        }
-        return photos;
+        presenter.takePhoto(v);
     }
 
     public void scrollPhotos(View v) {
@@ -245,20 +174,9 @@ public class MainActivity extends AppCompatActivity implements ISearch {
             File to = new File(tmpPath);
             File from = new File(path);
             from.renameTo(to);
-            photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "", "");
+            photos = presenter.findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "", "");
         }
     }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "_caption_" + locationStr + "_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -280,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
                 String latitude = (String) data.getStringExtra("LATITUDE");
                 String longitude = (String) data.getStringExtra("LONGITUDE");
                 index = 0;
-                photos = findPhotos(startTimestamp, endTimestamp, keywords, latitude, longitude);
+                photos = presenter.findPhotos(startTimestamp, endTimestamp, keywords, latitude, longitude);
                 if (photos.size() == 0) {
                     displayPhoto(null);
                 } else {
@@ -291,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements ISearch {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ImageView mImageView = (ImageView) findViewById(R.id.ivGallery);
             mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
-            photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "","");
+            photos = presenter.findPhotos(new Date(Long.MIN_VALUE), new Date(), "", "","");
         }
     }
 

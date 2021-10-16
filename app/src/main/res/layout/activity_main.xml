@@ -95,11 +95,10 @@
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:onClick="startSearch"
-        android:text="search"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        />
+        android:onClick="startSearchActivity"
+        android:text="search" />
 
     <Button
         android:id="@+id/shareButton"
