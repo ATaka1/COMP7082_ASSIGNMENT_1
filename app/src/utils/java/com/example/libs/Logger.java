@@ -1,6 +1,7 @@
 package com.example.libs;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,10 +18,13 @@ public class Logger {
     private Logger() {
         this.appDirectory = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.example.comp7082_assignment_1/files");
         this.logDirectory = new File(this.appDirectory + "/logs");
-        this.logfile = new File(this.logDirectory + "/logcat_" + System.currentTimeMillis() + ".txt" );
         if(!this.appDirectory.exists()) this.appDirectory.mkdir();
         if(!this.logDirectory.exists()) this.logDirectory.mkdir();
 
+    }
+
+    private void createLogFile() {
+        this.logfile = new File(this.logDirectory + "/logcat_" + System.currentTimeMillis() + ".txt" );
         if(!logfile.exists()) {
             try {
                 this.logfile.createNewFile();
@@ -36,23 +40,11 @@ public class Logger {
 
     public void appendLog(String text)
     {
-        File logFile = new File("sdcard/log.file");
-        if (!logFile.exists())
-        {
-            try
-            {
-                logFile.createNewFile();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        this.createLogFile();
         try
         {
             //BufferedWriter for performance, true to set append to file flag
-            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+            BufferedWriter buf = new BufferedWriter(new FileWriter(this.logfile, true));
             buf.append(text);
             buf.newLine();
             buf.close();
@@ -60,7 +52,8 @@ public class Logger {
         catch (IOException e)
         {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            String msg = e.getMessage();
+            Log.e("Logger", msg);
         }
     }
 }

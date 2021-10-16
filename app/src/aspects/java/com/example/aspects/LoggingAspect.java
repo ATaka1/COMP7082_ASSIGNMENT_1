@@ -15,13 +15,12 @@ public class LoggingAspect {
     @Before("call(void java.io.PrintStream.println(String)) " +
             "&& !within(com.example.aspects..*)")
     public void beforePrintlnCall() {
-
-        Log.i(TAG, "Print Call");
+        logger.appendLog("Before Print Call");
     }
 
     @After("call(void java.io.PrintStream.println(String)) " +
             "&&  !within(com.example.aspects..*)")
     public void afterPrintlnCall() {
-        System.out.println("Just made call to print Hello World");
+        logger.appendLog("Just made call to print Hello World");
     }
 }
