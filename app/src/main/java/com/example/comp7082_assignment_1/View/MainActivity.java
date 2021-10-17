@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.comp7082_assignment_1.Gallery;
+import com.example.comp7082_assignment_1.Model.LocationClient;
 import com.example.comp7082_assignment_1.Presenter.MainActivityPresenter;
 import com.example.comp7082_assignment_1.R;
 import com.example.comp7082_assignment_1.View.SearchActivity;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements Gallery.MainActiv
             requestPermissionLauncher.launch(
                     Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient = LocationClient.getInstance(this).getLocationClient();
     }
 
     private final ActivityResultLauncher<String> requestPermissionLauncher =

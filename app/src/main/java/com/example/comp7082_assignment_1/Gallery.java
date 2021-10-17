@@ -3,6 +3,8 @@ package com.example.comp7082_assignment_1;
 import android.content.Context;
 import android.view.View;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,4 +43,7 @@ public interface Gallery {
         ArrayList<String> getPhotoList(Date startTimestamp, Date endTimestamp, String keywords, String latitude, String longitude);
     }
 
+    interface LocationClientService {
+        FusedLocationProviderClient getLocationClient();
+    }
 }
