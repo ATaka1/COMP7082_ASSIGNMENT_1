@@ -18,6 +18,7 @@ import androidx.core.content.FileProvider;
 
 import com.example.comp7082_assignment_1.Gallery;
 import com.example.comp7082_assignment_1.Model.ExternalStorage;
+import com.example.comp7082_assignment_1.Model.LocationClient;
 import com.example.comp7082_assignment_1.View.MainActivity;
 import com.example.comp7082_assignment_1.View.SearchActivity;
 import com.example.comp7082_assignment_1.View.ShareActivity;
@@ -45,7 +46,7 @@ public class MainActivityPresenter extends AppCompatActivity implements Gallery.
         this.view = view;
         this.context = context;
         this.activity = activity;
-        this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
+        this.fusedLocationClient = LocationClient.getInstance(activity).getLocationClient();
         this.storage = new ExternalStorage(context);
     };
 
